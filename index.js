@@ -16,8 +16,13 @@ let scriptSteps = [];
 // Load script
 async function loadScript() {
   const res = await fetch(SHEET_URL);
-  scriptSteps = await res.json();
-  console.log("✅ Script loaded:", scriptSteps.length, "steps");
+  const data = await res.json();
+
+  console.log("RAW SHEET DATA:", data);
+
+  scriptSteps = Array.isArray(data) ? data : [];
+
+  console.log("✅ Script loaded:", scriptSteps.length);
 }
 
 // Get step
