@@ -60,16 +60,6 @@ If user resists, handle objections smoothly.
   }
 });
 
-
-    const reply = completion.choices[0].message.content;
-
-    res.json({ reply });
-  } catch (error) {
-    console.error(error);
-    res.status(500).send("Error");
-  }
-});
-
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log("Server running on port", PORT);
