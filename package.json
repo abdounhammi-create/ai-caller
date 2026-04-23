@@ -1,6 +1,7 @@
 {
   "name": "ai-caller",
   "version": "1.0.0",
+  "description": "AI voice agent",
   "main": "index.js",
   "scripts": {
     "start": "node index.js"
