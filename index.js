@@ -18,6 +18,14 @@ app.post("/chat", async (req, res) => {
   try {
     const userMessage = req.body.message;
 
+    if (!userMessage) {
+      return res.status(400).json({ error: "Message is required" });
+    }
+
+    if (!process.env.OPENAI_API_KEY) {
+      return res.status(500).json({ error: "API key missing" });
+    }
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -37,6 +45,21 @@ If user resists, handle objections smoothly.
         },
       ],
     });
+
+    const reply = completion.choices?.[0]?.message?.content;
+
+    res.json({ reply });
+
+  } catch (error) {
+    console.error("FULL ERROR:", error);
+
+    res.status(500).json({
+      error: error.message,
+      details: error.response?.data || null
+    });
+  }
+});
+
 
     const reply = completion.choices[0].message.content;
 
