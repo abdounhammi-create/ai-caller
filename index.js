@@ -58,3 +58,49 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+import express from "express";
+import OpenAI from "openai";
+
+const app = express();
+app.use(express.json());
+
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+app.get("/", (req, res) => {
+  res.send("AI Caller is running 🚀");
+});
+
+// 👇 THIS IS THE IMPORTANT PART
+app.post("/chat", async (req, res) => {
+  try {
+    const { message } = req.body;
+
+    const completion = await openai.chat.completions.create({
+      model: "gpt-4o-mini",
+      messages: [
+        {
+          role: "system",
+          content: "You are a call center agent speaking clearly and professionally.",
+        },
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+    });
+
+    res.json({
+      reply: completion.choices[0].message.content,
+    });
+
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error");
+  }
+});
+
+app.listen(process.env.PORT || 3000, () => {
+  console.log("Server running 🚀");
+});
