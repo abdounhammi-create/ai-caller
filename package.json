@@ -1,4 +1,6 @@
-{
+"scripts": {
+  "start": "node index.js"
+}
   "name": "ai-caller",
   "version": "1.0.0",
   "description": "AI outbound caller",
